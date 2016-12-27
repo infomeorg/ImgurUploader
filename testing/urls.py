@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',v.index),
     url(r'^imguruploader$',v.imguruploader),
+    url(r'^info$', v.apidetails,),
 )

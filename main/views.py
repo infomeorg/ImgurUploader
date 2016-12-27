@@ -14,7 +14,7 @@ import json
 import requests
 
 from base64 import b64encode
-
+from main.models import mall , codingninja , fragmentname
 
 
 
@@ -49,6 +49,16 @@ def imguruploader(request):
 	print j1
 	fileurl=json.loads(j1.text)["data"]["link"]
 	print fileurl
+	q = codingninja.objects.get_or_create(pk = 1)[0]
+	q.img1 = fileurl
+	q.save()
+
+
+
+
+
+
+
 		#return HttpResponse(j1.text)
 	#except Exception as e:
 		#print e
@@ -62,3 +72,47 @@ def imguruploader(request):
 
 def index(request):
 	return render(request,'main/upload.html')
+
+
+
+def apidetails(request):
+	
+	uid = request.GET.get("identifier")
+	print uid  
+
+
+	p = fragmentname.objects.get_or_create(identifier = uid)[0]
+	name = p.name
+	print name
+
+
+	if name == 'mall':
+		q = mall.objects.get(name = "" )[0]
+		image1  = q.img1 
+		image2 = q.img2 
+		image3 = q.img3 
+		knowmore = q.knowmore 
+		print "this worked1"
+		response_obj = json.dumps({"image":{"1":image1 , "2" : image2 , "3" : image3}, "knowmore":knowmore})	
+
+	elif name == 'codingninja':
+		q = codingninja.objects.get_or_create(pk = 1)[0]
+		print q
+		image1  = q.img1 
+		image2 = q.img2 
+		image3 = q.img3 
+		knowmore = q.knowmore 
+		print "this worked2"
+		response_obj = json.dumps({"image":{"1":image1 , "2" : image2 , "3" : image3}, "knowmore":knowmore})		
+
+ 
+
+
+
+
+
+
+
+	
+
+	return HttpResponse(response_obj)	
