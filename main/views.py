@@ -130,27 +130,23 @@ def apidetails(request):
 	return HttpResponse(response_obj)	
 
 def apiuid(request):
-	a = []
-	c = []
-	i = 0
-	q = fragmentname.objects.values_list('identifier' , flat = True )
 
-	print q 
+	uid = request.GET.get("uid")
+
+	q = fragmentname.objects.values_list('identifier' , flat = True )
 
 	
 
 	for b in q :
 
+		if b == uid :
+			a = "yes"
+			break;
 
-		d = {
+		else:
+			a = "no"	
 
-			"id" + str(i+1) : q[i] 
-		}
 
-		c.append(d)
-		i = i+1
-	print c 	
-
-	response_obj = json.dumps(c)
+	response_obj = json.dumps(a)
 	
 	return HttpResponse(response_obj)	
