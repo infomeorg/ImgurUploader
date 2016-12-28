@@ -42,7 +42,7 @@ def imguruploader(request):
 	print aboutme
 
 
-
+	fileurl = []
 	for i in xrange(1,4):
 		url = "https://api.imgur.com/3/upload.json"
 		if ('file'+str(i)) in request.FILES:
@@ -61,10 +61,11 @@ def imguruploader(request):
 			    }
 			)
 			print j1
-			fileurl=json.loads(j1.text)["data"]["link"]
-			print fileurl
-
-
+			img = json.loads(j1.text)["data"]["link"]
+			print img
+			fileurl.append(img)
+			
+		print fileurl
 	return HttpResponse("your file was uploaded successfully")
             
 
@@ -108,16 +109,6 @@ def apidetails(request):
 		knowmore = q.knowmore 
 		print "this worked2"
 		response_obj = json.dumps({"image":{"1":image1 , "2" : image2 , "3" : image3}, "knowmore":knowmore})		
-
- 
-
-
-
-
-
-
-
-	
 
 	return HttpResponse(response_obj)	
 
